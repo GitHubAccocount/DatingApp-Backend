@@ -1,7 +1,6 @@
 <h1>During development...</h1>
 
-
-How to start?
+Project setup
 
 install dependencies
  ```
