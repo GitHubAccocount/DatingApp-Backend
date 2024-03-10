@@ -3,4 +3,4 @@
 How to start?
 
 1. Install dependencies
-   (`composer install)
+   (`)composer install(`)
