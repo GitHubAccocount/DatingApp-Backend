@@ -30,7 +30,8 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'birthday' => '1998-12-12',
             'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'remember_token' => null,
+            'profile_picture' => 'http://localhost:8000/storage/userPhotos/defaultProfilePicture.png'
         ];
     }
 

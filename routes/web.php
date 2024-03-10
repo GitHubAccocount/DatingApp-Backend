@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\Hello;
+use App\Events\PrivateTest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +17,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
+});
+
+Route::get('/broadcast', function () {
+
+    broadcast(new Hello());
+    return "Event has been sent!";
+});
+
+Route::get('/broadcastPrivate', function () {
+    $user = App\Models\User::find(5);
+    broadcast(new PrivateTest($user));
+    return "Event has been sent!";
 });
 
 require __DIR__ . '/auth.php';

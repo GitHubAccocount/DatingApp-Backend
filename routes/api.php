@@ -6,6 +6,7 @@ use App\Http\Controllers\Form\QuestionController;
 use App\Http\Controllers\Match\MatchController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,3 +36,10 @@ Route::get('/personal-informations/get-form-submission-state', [PersonalInformat
 Route::get('/matched-users', [MatchController::class, 'index'])->middleware('auth:sanctum');
 
 Route::put('/update-user', [UserController::class, 'update'])->middleware('auth:sanctum');
+
+// pusher
+// Route::get('/chat', [App\Http\Controllers\ChatsController::class, 'index']);
+// Route::get('/messages', [App\Http\Controllers\ChatsController::class, 'fetchMessages']);
+// Route::post('/messages', [App\Http\Controllers\ChatsController::class, 'sendMessage']);
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
