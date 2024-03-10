@@ -1,4 +1,4 @@
-<h1>During development</h1>
+<h1>During development...</h1>
 
 
 How to start?
