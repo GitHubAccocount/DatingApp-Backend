@@ -4,12 +4,12 @@
 How to start?
     <li>
         <p>install dependencies</p>
-        \n
+        <br>
         `composer install`
     </li>
     <li>
         <p>start the development server</p>
-        \n
+        <br>
         `php artisan serve`
     </li>
     <li>
