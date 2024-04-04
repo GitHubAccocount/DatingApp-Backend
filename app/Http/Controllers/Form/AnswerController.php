@@ -19,28 +19,30 @@ class AnswerController extends Controller
 
     public function store(Request $request)
     {
-        // prevent against empty form submission
+        // Prevent empty form submission
         if (empty($request->all())) {
             return response()->json([
                 'errors' => 'You need to answers the statements.'
             ], 422);
         }
 
-        // get number of questions
+        // Get the number of questions
         $questionsCount = Question::count();
 
-        // for each question there is a rule
+        // Define validation rules for each question
         $rules = [];
         for ($i = 0; $i < $questionsCount; $i++) {
             $rules["$i.id"] = 'required|numeric';
             $rules["$i.selectedAnswer"] = ['required', 'string', new SelectedAnswerValidationRule];
         }
 
+        // Validate the incoming request data
         $validated = $request->validate($rules);
 
+        // Get the ID of the authenticated user
         $userId = auth()->id();
 
-        // user can answers the questions only if naver has done it before
+        // Ensure user has not previously answered the questions
         $user = User::find($userId);
         if (!$user->answer()->exists()) {
             $answers = [];
@@ -52,6 +54,7 @@ class AnswerController extends Controller
                 ];
             }
 
+            // Insert answers into the database
             DB::table('answers')->insert($answers);
 
             return response()->noContent();
@@ -60,9 +63,13 @@ class AnswerController extends Controller
 
     public function getFormSubmissionState()
     {
+        // Get the ID of the authenticated user
         $userId = auth()->id();
+        // Check if answers exist for the user
+        // If one answer exists, all of them should exist
         $answers = Answer::where('user_id', $userId)->exists();
 
+        // Return a JSON response indicating whether the form has been submitted
         return response()->json([
             'submitted' => $answers,
         ]);

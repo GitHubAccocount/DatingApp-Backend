@@ -19,16 +19,16 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
-Route::get('/broadcast', function () {
+// Route::get('/broadcast', function () {
 
-    broadcast(new Hello());
-    return "Event has been sent!";
-});
+//     broadcast(new Hello());
+//     return "Event has been sent!";
+// });
 
-Route::get('/broadcastPrivate', function () {
-    $user = App\Models\User::find(5);
-    broadcast(new PrivateTest($user));
-    return "Event has been sent!";
-});
+// Route::get('/broadcastPrivate', function () {
+//     $user = App\Models\User::find(5);
+//     broadcast(new PrivateTest($user));
+//     return "Event has been sent!";
+// });
 
 require __DIR__ . '/auth.php';

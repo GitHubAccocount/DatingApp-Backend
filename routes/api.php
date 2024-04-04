@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Form\AnswerController;
 use App\Http\Controllers\Form\PersonalInformationController;
 use App\Http\Controllers\Form\QuestionController;
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
+
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -37,9 +40,10 @@ Route::get('/matched-users', [MatchController::class, 'index'])->middleware('aut
 
 Route::put('/update-user', [UserController::class, 'update'])->middleware('auth:sanctum');
 
-// pusher
-// Route::get('/chat', [App\Http\Controllers\ChatsController::class, 'index']);
-// Route::get('/messages', [App\Http\Controllers\ChatsController::class, 'fetchMessages']);
-// Route::post('/messages', [App\Http\Controllers\ChatsController::class, 'sendMessage']);
-
-Broadcast::routes(['middleware' => ['auth:sanctum']]);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/chat/get-chats', [ChatController::class, 'getChats']);
+    Route::post('/chat/create-chat', [ChatController::class, 'createChat']);
+    Route::get('/chat/get-chat-by-id/{chat}', [ChatController::class, 'getChatById']);
+    Route::post('/chat/send-text-message', [ChatController::class, 'sendTextMessage']);
+    Route::get('/chat/message-status/{message}', [ChatController::class, 'messageStatus']);
+});

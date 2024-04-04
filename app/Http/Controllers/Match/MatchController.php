@@ -13,17 +13,13 @@ class MatchController extends Controller
 {
     public function index()
     {
+        // Get the ID of the authenticated user
         $userId = auth()->id();
 
+        // Retrieve personal information of the authenticated user
         $user = PersonalInformation::where('user_id', $userId)->first();
 
-        // $matchedUsers = DB::table('personal_information')->where([
-        //     ['own_emapthy_level', '=', $user->desired_emapthy_level],
-        //     ['gender', '=', $user->look_for],
-        //     ['look_for', '=', $user->gender],
-        //     ['desired_emapthy_level', '=', $user->own_emapthy_level]
-        // ])->get();
-
+        // Find users matching the desired empathy level and gender
         $matchedUsers = User::whereHas('personalInformation', function (Builder $query) use ($user) {
             $query->where('own_emapthy_level', '=', $user->desired_emapthy_level)
                 ->where('gender', '=', $user->look_for)
@@ -32,7 +28,7 @@ class MatchController extends Controller
         })
             ->with('personalInformation')->get();
 
-
+        // Return a JSON response containing matched users
         return response()->json($matchedUsers);
     }
 }

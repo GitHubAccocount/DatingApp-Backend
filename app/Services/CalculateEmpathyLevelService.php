@@ -15,11 +15,15 @@ class CalculateEmpathyLevelService
 
     public function calculate()
     {
+        // Get the ID of the authenticated user
         $userId = auth()->id();
 
+        // Retrieve positive scored answers for the user
         $positiveScoredAnswers = Answer::where('user_id', $userId)->whereRelation('question', 'is_positive', true)->get();
+        // Retrieve negative scored answers for the user
         $negativeScoredAnswers = Answer::where('user_id', $userId)->whereRelation('question', 'is_positive', false)->get();
 
+        // Calculate positive and negative results
         foreach ($positiveScoredAnswers as $answer) {
             $this->positiveResult += intval($answer->answer);
         }
@@ -28,13 +32,16 @@ class CalculateEmpathyLevelService
             $this->negativeeResult += -intval($answer->answer);
         }
 
+        // Return the addition result (points)
         return ($this->positiveResult + $this->negativeeResult);
     }
 
     public function getEmpathyLevel(string $gender)
     {
+        // Calculate points based on answers
         $points = $this->calculate();
 
+        // Determine empathy level based on gender and points
         if ($gender == 'female') {
             if ($points < 29) {
                 return 'low';

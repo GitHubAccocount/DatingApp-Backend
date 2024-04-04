@@ -11,8 +11,10 @@ class QuestionController extends Controller
 {
     public function index(): JsonResponse
     {
+        // Retrieve all questions from the database
         $questions =  Question::all();
 
+        // Return a JSON response containing all questions
         return response()->json($questions);
     }
 }
